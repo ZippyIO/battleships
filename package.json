@@ -9,11 +9,11 @@
         "preview": "vite preview",
         "test": "vitest",
         "test-ui": "vitest --ui",
-        "coverage": "vitest run --coverage",
-        "playwright": "playwright test -c playwright.config.ts",
-        "playwright-ct": "playwright test -c playwright-ct.config.ts"
+        "test-ct": "playwright test -c playwright-ct.config.ts",
+        "coverage": "vitest run --coverage"
     },
     "dependencies": {
+        "clsx": "^1.2.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.8.0",
@@ -21,7 +21,6 @@
     },
     "devDependencies": {
         "@playwright/experimental-ct-react": "^1.31.2",
-        "@playwright/test": "^1.31.2",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^14.0.0",
         "@testing-library/user-event": "^14.4.3",
