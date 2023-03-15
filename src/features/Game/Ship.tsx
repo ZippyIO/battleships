@@ -1,4 +1,4 @@
-import SHIP_IMAGES from '../data/shipImages';
+import SHIP_IMAGES from '../../data/shipImages';
 
 export type ShipType =
     | { name: 'carrier'; length: 5; section: number | null }
