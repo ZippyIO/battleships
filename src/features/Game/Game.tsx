@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import FleetUI from './FleetUI';
 import Gameboard from './Gameboard';
+import GameStats from './GameStats';
 import { ShipType } from './Ship';
 
 type GameStatus = 'setup' | 'active' | 'over';
@@ -30,6 +31,10 @@ const Game = () => {
         length: 1,
         section: null,
     });
+
+    const setGameStage = (status: GameStatus) => {
+        setGameStatus(status);
+    };
 
     const setShip = (ship: ShipType) => {
         setCurrentShip(ship);
@@ -63,9 +68,11 @@ const Game = () => {
             }));
         }
     };
+
     return (
         <div className="mx-12 mt-16 flex flex-col items-center justify-center gap-2">
             <div className="">
+                <GameStats player={player} gameStatus={gameStatus} setGameStage={setGameStage} />
                 <div className="flex gap-4">
                     <div className="flex flex-col items-center justify-center">
                         <p className="text-center text-2xl font-bold">Player 1</p>
