@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ShipType } from './Ship';
 import Tile, { TileObject } from './Tile';
 
-type PlacedShips =
+type Ship =
     | 'carrier'
     | 'amphibious'
     | 'nuclear_submarine'
@@ -11,17 +11,27 @@ type PlacedShips =
     | 'corvette'
     | 'patrol'
     | 'coast_guard';
+
 type GameStatus = 'setup' | 'active' | 'over';
+type Player = 'player1' | 'player2';
 type Props = {
     gameStatus: GameStatus;
     currentShip: ShipType | null;
-    player: 'player1' | 'player2';
-    currentPlayer: 'player1' | 'player2';
+    player: Player;
+    currentPlayer: Player;
+    setPlayerShips: (ship: Ship, player: Player) => void;
     finishTurn: () => void;
 };
 
-const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn }: Props) => {
-    const [placedShips, setPlacedShips] = useState<Array<PlacedShips>>([]);
+const Gameboard = ({
+    gameStatus,
+    currentShip,
+    player,
+    currentPlayer,
+    setPlayerShips,
+    finishTurn,
+}: Props) => {
+    const [placedShips, setPlacedShips] = useState<Array<Ship>>([]);
     const [gameboard, setGameboard] = useState(
         [...Array(10).keys()].map((rindex) => ({
             rindex,
@@ -59,7 +69,7 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
         });
     };
 
-    const checkAllPlacedShips = (ships: Array<PlacedShips>): boolean => {
+    const checkAllPlacedShips = (ships: Array<Ship>): boolean => {
         const uniqueShips = [...new Set(ships)];
         const totalShips = 7;
 
@@ -74,7 +84,7 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
         ship: ShipType,
         row: number,
         column: TileObject,
-        ships: Array<PlacedShips>,
+        ships: Array<Ship>,
     ): boolean => {
         const { length } = ship;
         const { cindex } = column;
@@ -98,6 +108,7 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
                 updateShipsGameboard(ship, row, column.cindex + i, i);
             }
             setPlacedShips((prevShips) => [...prevShips, ship.name]);
+            setPlayerShips(ship.name, player);
         }
     };
 
