@@ -14,12 +14,8 @@ type Props = {
     ship: ShipType;
 };
 
-const Ship = ({ ship }: Props) => {
-    if (ship) {
-        return <img src={SHIP_IMAGES[ship.name][ship.section as number]} alt="" className="" />;
-    }
-
-    return null;
-};
+const Ship = ({ ship }: Props) => (
+    <img src={SHIP_IMAGES[ship.name][ship.section as number]} alt="" className="" />
+);
 
 export default Ship;
