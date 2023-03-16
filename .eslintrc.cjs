@@ -18,11 +18,10 @@ module.exports = {
     },
     plugins: ['react', '@typescript-eslint', 'import'],
     rules: {
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': ['error', { ignoreTypeValueShadow: true }],
         'react/react-in-jsx-scope': 'off',
-        'react/jsx-filename-extension': [
-            1,
-            { extensions: ['.js', '.jsx', '.tsx'] },
-        ],
+        'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx', '.tsx'] }],
         'react/function-component-definition': [
             2,
             {
