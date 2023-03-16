@@ -61,7 +61,7 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
 
     const checkAllPlacedShips = (ships: Array<PlacedShips>): boolean => {
         const uniqueShips = [...new Set(ships)];
-        const totalShips = 8;
+        const totalShips = 7;
 
         if (uniqueShips.length === totalShips) {
             return true;
@@ -70,14 +70,34 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
         return false;
     };
 
+    const checkValidShipPlacement = (
+        ship: ShipType,
+        row: number,
+        column: TileObject,
+        ships: Array<PlacedShips>,
+    ): boolean => {
+        const { length } = ship;
+        const { cindex } = column;
+        const includesShip = ships.includes(ship.name);
+
+        if (includesShip) return false;
+
+        for (let i = 0; i < length; i += 1) {
+            if (gameboard[row].columns[cindex + i].ship) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
     const placeShip = (ship: ShipType, row: number, column: TileObject) => {
-        if (currentPlayer === player && !checkAllPlacedShips(placedShips)) {
+        if (checkAllPlacedShips(placedShips)) finishTurn();
+        if (currentPlayer === player && checkValidShipPlacement(ship, row, column, placedShips)) {
             for (let i = 0; i < ship.length; i += 1) {
                 updateShipsGameboard(ship, row, column.cindex + i, i);
             }
             setPlacedShips((prevShips) => [...prevShips, ship.name]);
-        } else {
-            finishTurn();
         }
     };
 
@@ -110,7 +130,7 @@ const Gameboard = ({ gameStatus, currentShip, player, currentPlayer, finishTurn 
     };
 
     return (
-        <div className="rounded-lg bg-dark-700 p-2">
+        <div className="rounded-t-lg bg-dark-700 p-2">
             <div className="grid grid-rows-[repeat(10,80px)] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gray-800 to-dark-900 ">
                 {gameboard.map((row) => (
                     <div
